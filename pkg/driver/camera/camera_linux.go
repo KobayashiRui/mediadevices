@@ -245,6 +245,8 @@ func (c *camera) VideoRecord(p prop.Media) (video.Reader, error) {
 	c.cancel = cancel
 	var buf []byte
 	r := video.ReaderFunc(func() (img image.Image, release func(), err error) {
+		//TODO: カメラのフォーマットがmjepgで出力のフォーマットもmjpegの場合はデコードしないようにする=そのまま出力する
+
 		// Lock to avoid accessing the buffer after StopStreaming()
 		c.mutex.Lock()
 		defer c.mutex.Unlock()
