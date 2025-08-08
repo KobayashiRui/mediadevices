@@ -62,6 +62,25 @@ func decodeMJPEG(frame []byte, width, height int) (image.Image, func(), error) {
 	return img, func() {}, err
 }
 
+func decodeDirectMJPEG(frame []byte, width, height int) (image.Image, func(), error) {
+	img, err := jpeg.Decode(bytes.NewReader(frame))
+	if err == nil {
+		return img, func() {}, err
+	}
+
+	if errors.As(err, &uninitializedHuffmanTableError) {
+		if err.Error() == uninitializedHuffmanTableError.Error() {
+			img, err = jpeg.Decode(bytes.NewReader(addMotionDht(frame)))
+		}
+	}
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return img, func() {}, err
+}
+
 func addMotionDht(frame []byte) []byte {
 	jpegParts := bytes.Split(frame, sosMarker)
 	if len(jpegParts) != 2 {

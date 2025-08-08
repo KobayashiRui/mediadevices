@@ -29,19 +29,22 @@ const (
 	// FormatMJPEG https://wiki.videolan.org/MJPEG
 	FormatMJPEG = "MJPEG"
 
+	FormatDirectMJPEG = "DirectMJPEG"
+
 	// FormatZ16 https://www.kernel.org/doc/html/v5.9/userspace-api/media/v4l/pixfmt-z16.html
 	FormatZ16 = "Z16"
 )
 
 var decoderMap = map[Format]decoderFunc{
-	FormatI420:  decodeI420,
-	FormatNV21:  decodeNV21,
-	FormatNV12:  decodeNV12,
-	FormatYUY2:  decodeYUY2,
-	FormatYUYV:  decodeYUY2,
-	FormatUYVY:  decodeUYVY,
-	FormatMJPEG: decodeMJPEG,
-	FormatZ16:   decodeZ16,
+	FormatI420:        decodeI420,
+	FormatNV21:        decodeNV21,
+	FormatNV12:        decodeNV12,
+	FormatYUY2:        decodeYUY2,
+	FormatYUYV:        decodeYUY2,
+	FormatUYVY:        decodeUYVY,
+	FormatMJPEG:       decodeMJPEG,
+	FormatZ16:         decodeZ16,
+	FormatDirectMJPEG: decodeDirectMJPEG,
 }
 
 func NewDecoder(f Format) (Decoder, error) {
